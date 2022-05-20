@@ -7,18 +7,12 @@ import tienda.servicios.ProductoServicio;
 
 public final class EntidadDaoProducto extends DAO {
 
-    private final ProductoServicio productoServicio;
-
-    public EntidadDaoProducto() {
-        this.productoServicio = new ProductoServicio();
-    }
-
     public void guardar(Producto producto) throws Exception {
         try {
             if (producto == null) {
                 throw new Exception("Debe indicar el mascota");
             }
-            String sql = "INSERT INTO Mascota (apodo, raza, idUsuario) "
+            String sql = "INSERT INTO Producto (nombre, codigo, precio, codigo_fabricante) "
                     + "VALUES ( '" + producto.getNombre() + "' , '" + producto.getCodigo() + "' ," + producto.getCodigoFabricante() + "' ," + producto.getPrecio() + "' );";
 
             System.out.println(sql);
@@ -48,7 +42,7 @@ public final class EntidadDaoProducto extends DAO {
 
     public void eliminarProducto(int codigo) throws Exception {
         try {
-            String sql = "DELETE FROM tienda WHERE id = " + codigo + "";
+            String sql = "DELETE FROM producto WHERE id = " + codigo + "";
             insertarModificarEliminar(sql);
         } catch (Exception e) {
             throw e;
@@ -59,7 +53,7 @@ public final class EntidadDaoProducto extends DAO {
 
     public Producto buscarProductoPorCodigo(int codigo) throws Exception {
         try {
-            String sql = "SELECT * FROM tienda WHERE codigo = " + codigo + "";
+            String sql = "SELECT * FROM producto WHERE codigo = " + codigo + "";
             consultarBase(sql);
             Producto producto = null;
             while (resultado.next()) {
@@ -68,39 +62,59 @@ public final class EntidadDaoProducto extends DAO {
                 producto.setCodigoFabricante(resultado.getInt(2));
                 producto.setNombre(resultado.getString(3));
                 producto.setPrecio(resultado.getInt(4));
-                Integer idUsuario = resultado.getInt(5);
-                
-                //llegue hasta aca
-                
-                Producto usuario = productoServicio.buscarProductoPorCodigo(codigo);
-                producto.setUsuario(usuario);
+
+                // Producto usuario = productoServicio.buscarProductoPorCodigo(codigo);
+                // producto.setUsuario(usuario);
             }
             desconectarBase();
-            return mascota;
+            return producto;
         } catch (Exception e) {
             desconectarBase();
             throw e;
         }
     }
 
-    public Collection<Mascota> listarMascotas() throws Exception {
+    public Collection<Producto> listarProductos() throws Exception {
         try {
-            String sql = "SELECT * FROM Mascota ";
+            String sql = "SELECT * FROM producto ";
             consultarBase(sql);
-            Mascota mascota = null;
-            Collection<Mascota> mascotas = new ArrayList();
+            Producto producto = null;
+            Collection<Producto> productos = new ArrayList();
             while (resultado.next()) {
-                mascota = new Mascota();
-                mascota.setId(resultado.getInt(1));
-                mascota.setApodo(resultado.getString(2));
-                mascota.setRaza(resultado.getString(3));
-                Integer idUsuario = resultado.getInt(4);
-                Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
-                mascota.setUsuario(usuario);
-                mascotas.add(mascota);
+                producto = new Producto();
+                producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(2));
+                producto.setPrecio(resultado.getDouble(3));
+                producto.setCodigoFabricante(resultado.getInt(4));
+                productos.add(producto);
             }
             desconectarBase();
-            return mascotas;
+            return productos;
+        } catch (Exception e) {
+            e.printStackTrace();
+            desconectarBase();
+            throw e;
+        }
+    }
+
+    
+
+    public Collection<Producto> listarProductosEntrePrecios() throws Exception {
+        try {
+            String sql = "SELECT nombre,precio FROM producto Where precio>120 and precio<202";
+            consultarBase(sql);
+            Producto producto = null;
+            Collection<Producto> productos = new ArrayList();
+            while (resultado.next()) {
+                producto = new Producto();
+               // producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(1));
+                producto.setPrecio(resultado.getDouble(2));
+               // producto.setCodigoFabricante(resultado.getInt(4));
+                productos.add(producto);
+            }
+            desconectarBase();
+            return productos;
         } catch (Exception e) {
             e.printStackTrace();
             desconectarBase();
@@ -108,4 +122,3 @@ public final class EntidadDaoProducto extends DAO {
         }
     }
 }
-
