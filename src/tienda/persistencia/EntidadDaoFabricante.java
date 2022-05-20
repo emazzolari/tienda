@@ -13,8 +13,8 @@ public class EntidadDaoFabricante extends DAO {
             if (fabricante == null) {
                 throw new Exception("Debe indicar el mascota");
             }
-            String sql = "INSERT INTO Fabricante (nombre, codigo, precio, codigo_fabricante) "
-                    + "VALUES ( '" + fabricante.getNombre() + "' , '" + fabricante.getCodigo();
+            String sql = "INSERT INTO Fabricante (codigo, nombre) "
+                    + "VALUES ( '" + fabricante.getCodigo()+ "' , '" + fabricante.getNombre() + "' );";
 
             System.out.println(sql);
             insertarModificarEliminar(sql);

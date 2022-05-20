@@ -10,10 +10,9 @@ public final class EntidadDaoProducto extends DAO {
     public void guardar(Producto producto) throws Exception {
         try {
             if (producto == null) {
-                throw new Exception("Debe indicar el mascota");
+                throw new Exception("Debe indicar el producto");
             }
-            String sql = "INSERT INTO Producto (nombre, codigo, precio, codigo_fabricante) "
-                    + "VALUES ( '" + producto.getNombre() + "' , '" + producto.getCodigo() + "' ," + producto.getCodigoFabricante() + "' ," + producto.getPrecio() + "' );";
+            String sql = "INSERT INTO Producto ( codigo, nombre, precio, codigo_fabricante) VALUES ( '" +producto.getCodigo() + "' , '" + producto.getNombre() + "' , '" + producto.getPrecio()+ "' , '" + producto.getCodigoFabricante() + "' );";
 
             System.out.println(sql);
             insertarModificarEliminar(sql);
@@ -30,7 +29,7 @@ public final class EntidadDaoProducto extends DAO {
                 throw new Exception("Debe indicar el producto que desea modificar");
             }
             String sql = "UPDATE Producto SET "
-                    + " nombre = '" + producto.getNombre() + "' , codigo = '" + producto.getCodigo() + "' , codigoFabricante = " + producto.getCodigoFabricante() + "' , precio = " + producto.getPrecio()
+                    + " nombre = '" + producto.getCodigo()+ "' , codigo = '" + producto.getNombre()+ "' , precio = " + producto.getPrecio()+ "' , codigoFabricante = " + producto.getCodigoFabricante()
                     + " WHERE codigo = '" + producto.getCodigo() + "'";
             insertarModificarEliminar(sql);
         } catch (Exception e) {
@@ -102,6 +101,52 @@ public final class EntidadDaoProducto extends DAO {
     public Collection<Producto> listarProductosEntrePrecios() throws Exception {
         try {
             String sql = "SELECT nombre,precio FROM producto Where precio>120 and precio<202";
+            consultarBase(sql);
+            Producto producto = null;
+            Collection<Producto> productos = new ArrayList();
+            while (resultado.next()) {
+                producto = new Producto();
+               // producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(1));
+                producto.setPrecio(resultado.getDouble(2));
+               // producto.setCodigoFabricante(resultado.getInt(4));
+                productos.add(producto);
+            }
+            desconectarBase();
+            return productos;
+        } catch (Exception e) {
+            e.printStackTrace();
+            desconectarBase();
+            throw e;
+        }
+    }
+    
+    public Collection<Producto> listarProductosIncisoD() throws Exception {
+        try {
+            String sql = "SELECT nombre,precio FROM producto Where nombre like 'Portatil%'";
+            consultarBase(sql);
+            Producto producto = null;
+            Collection<Producto> productos = new ArrayList();
+            while (resultado.next()) {
+                producto = new Producto();
+               // producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(1));
+                producto.setPrecio(resultado.getDouble(2));
+               // producto.setCodigoFabricante(resultado.getInt(4));
+                productos.add(producto);
+            }
+            desconectarBase();
+            return productos;
+        } catch (Exception e) {
+            e.printStackTrace();
+            desconectarBase();
+            throw e;
+        }
+    }
+    
+     public Collection<Producto> listarProductoMasBarato() throws Exception {
+        try {
+            String sql = "SELECT nombre,MIN(precio) FROM producto";
             consultarBase(sql);
             Producto producto = null;
             Collection<Producto> productos = new ArrayList();

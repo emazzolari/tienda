@@ -56,7 +56,7 @@ public class ProductoServicio {
                 throw new Exception("No existen productos para imprimir");
             } else {
                 for (Producto u : productos) {
-                    System.out.println(u.getNombre()+ "\n");
+                    System.out.println(u.getNombre()+u.getCodigoFabricante()+ "\n");
                 }
             }
         } catch (Exception e) {
@@ -124,17 +124,57 @@ public class ProductoServicio {
         try {
 
             //Listamos los productos
-            Collection<Producto> productos = listarProductos();
+            Collection<Producto> productos =dao.listarProductosIncisoD();
 
             //Imprimimos los productos
             if (productos.isEmpty()) {
                 throw new Exception("No existen productos para imprimir");
             } else {
                 for (Producto u : productos) {
-                    if(u.getNombre().equalsIgnoreCase("Portátil Yoga 520"))
+                    //if(u.getNombre().equalsIgnoreCase("Portátil Yoga 520"))
                     System.out.println("Nombre: "+u.getNombre()+ "\n");
                 }
             }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+ 
+  public void imprimirIncisoE() throws Exception {
+
+        try {
+
+            //Listamos los productos
+            Collection<Producto> productos =dao.listarProductoMasBarato();
+
+            //Imprimimos los productos
+            if (productos.isEmpty()) {
+                throw new Exception("No existen productos para imprimir");
+            } else {
+                for (Producto u : productos) {
+                    //if(u.getNombre().equalsIgnoreCase("Portátil Yoga 520"))
+                    System.out.println("Nombre: "+u.getNombre()+" | "+" Precio: "+u.getPrecio()+ "\n");
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+  
+  public void crearProducto(int codigo, String nombre, double precio, int codigofabricante) throws Exception {
+
+        try {
+           
+
+            //Creamos el producto
+            Producto producto = new Producto();
+            producto.setCodigo(codigo);
+            producto.setNombre(nombre);
+            producto.setPrecio(precio);
+            producto.setCodigoFabricante(codigofabricante);
+
+            dao.guardar(producto);
+
         } catch (Exception e) {
             throw e;
         }

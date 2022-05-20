@@ -1,6 +1,7 @@
 package tienda;
 
 
+import tienda.persistencia.EntidadDaoProducto;
 import tienda.servicios.MenuServicio;
 
 
