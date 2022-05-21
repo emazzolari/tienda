@@ -18,12 +18,12 @@ public class ProductoServicio {
 
             //Validamos
             if (codigo < 0) {
-                throw new Exception("Debe indicar el nombre");
+                throw new Exception("Debe indicar el codigo");
             }
             Producto producto = dao.buscarProductoPorCodigo(codigo);
             //Verificamos
             if (producto == null) {
-                throw new Exception("No se econtró el nombre del producto indicado");
+                throw new Exception("No se econtró el codigo del producto indicado");
             }
 
             return producto;
@@ -35,7 +35,7 @@ public class ProductoServicio {
     public Collection<Producto> listarProductos() throws Exception {
 
         try {
-          
+
             Collection<Producto> productos = dao.listarProductos();
 
             return productos;
@@ -56,15 +56,15 @@ public class ProductoServicio {
                 throw new Exception("No existen productos para imprimir");
             } else {
                 for (Producto u : productos) {
-                    System.out.println(u.getNombre()+u.getCodigoFabricante()+ "\n");
+                    System.out.println(u.getNombre() + u.getCodigoFabricante() + "\n");
                 }
             }
         } catch (Exception e) {
             throw e;
         }
     }
-    
-     public void imprimirNombresYPrecios() throws Exception {
+
+    public void imprimirNombresYPrecios() throws Exception {
 
         try {
 
@@ -76,16 +76,16 @@ public class ProductoServicio {
                 throw new Exception("No existen productos para imprimir");
             } else {
                 for (Producto u : productos) {
-                   // if(u.getPrecio()>120 && u.getPrecio()<202)
-                    System.out.println("Nombre: "+u.getNombre()+" | "+" Precio: "+u.getPrecio()+ "\n");
+                    // if(u.getPrecio()>120 && u.getPrecio()<202)
+                    System.out.println("Nombre: " + u.getNombre() + " | " + " Precio: " + u.getPrecio() + "\n");
                 }
             }
         } catch (Exception e) {
             throw e;
         }
     }
-     
-         public void imprimirProductosEntrePrecios() throws Exception {
+
+    public void imprimirProductosEntrePrecios() throws Exception {
 
         try {
 
@@ -97,20 +97,19 @@ public class ProductoServicio {
                 throw new Exception("No existen productos para imprimir");
             } else {
                 for (Producto u : productos) {
-                   // if(u.getPrecio()>120 && u.getPrecio()<202)
-                    System.out.println("Nombre: "+u.getNombre()+" | "+" Precio: "+u.getPrecio()+ "\n");
+                    // if(u.getPrecio()>120 && u.getPrecio()<202)
+                    System.out.println("Nombre: " + u.getNombre() + " | " + " Precio: " + u.getPrecio() + "\n");
                 }
             }
         } catch (Exception e) {
             throw e;
         }
     }
-     
-     
- public Collection<Producto> listarProductosEntrePrecios() throws Exception {
+
+    public Collection<Producto> listarProductosEntrePrecios() throws Exception {
 
         try {
-          
+
             Collection<Producto> productos = dao.listarProductosEntrePrecios();
 
             return productos;
@@ -119,12 +118,12 @@ public class ProductoServicio {
         }
     }
 
- public void imprimirIncisoD() throws Exception {
+    public void imprimirIncisoD() throws Exception {
 
         try {
 
             //Listamos los productos
-            Collection<Producto> productos =dao.listarProductosIncisoD();
+            Collection<Producto> productos = dao.listarProductosIncisoD();
 
             //Imprimimos los productos
             if (productos.isEmpty()) {
@@ -132,20 +131,20 @@ public class ProductoServicio {
             } else {
                 for (Producto u : productos) {
                     //if(u.getNombre().equalsIgnoreCase("Portátil Yoga 520"))
-                    System.out.println("Nombre: "+u.getNombre()+ "\n");
+                    System.out.println("Nombre: " + u.getNombre() + "\n");
                 }
             }
         } catch (Exception e) {
             throw e;
         }
     }
- 
-  public void imprimirIncisoE() throws Exception {
+
+    public void imprimirIncisoE() throws Exception {
 
         try {
 
             //Listamos los productos
-            Collection<Producto> productos =dao.listarProductoMasBarato();
+            Collection<Producto> productos = dao.listarProductoMasBarato();
 
             //Imprimimos los productos
             if (productos.isEmpty()) {
@@ -153,18 +152,17 @@ public class ProductoServicio {
             } else {
                 for (Producto u : productos) {
                     //if(u.getNombre().equalsIgnoreCase("Portátil Yoga 520"))
-                    System.out.println("Nombre: "+u.getNombre()+" | "+" Precio: "+u.getPrecio()+ "\n");
+                    System.out.println("Nombre: " + u.getNombre() + " | " + " Precio: " + u.getPrecio() + "\n");
                 }
             }
         } catch (Exception e) {
             throw e;
         }
     }
-  
-  public void crearProducto(int codigo, String nombre, double precio, int codigofabricante) throws Exception {
+
+    public void crearProducto(int codigo, String nombre, double precio, int codigofabricante) throws Exception {
 
         try {
-           
 
             //Creamos el producto
             Producto producto = new Producto();
@@ -178,5 +176,20 @@ public class ProductoServicio {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public void modificarProducto(int codigo, String nombre, double precio, int codigofabricante) throws Exception {
+
+        //Buscamos
+        Producto producto = buscarProductoPorCodigo(codigo);
+
+        //Modificamos
+        producto.setCodigo(codigo);
+        producto.setNombre(nombre);
+        producto.setPrecio(precio);
+        producto.setCodigoFabricante(codigofabricante);
+
+        dao.modificarProducto(producto);
+
     }
 }
