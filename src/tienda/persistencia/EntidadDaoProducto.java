@@ -163,4 +163,28 @@ public final class EntidadDaoProducto extends DAO {
             throw e;
         }
     }
+    
+    public Collection<Producto> listarProductosNombreYprecio() throws Exception {
+        try {
+            String sql = "SELECT nombre,precio FROM producto";
+            consultarBase(sql);
+            Producto producto = null;
+            Collection<Producto> productos = new ArrayList();
+            while (resultado.next()) {
+                producto = new Producto();
+                // producto.setCodigo(resultado.getInt(1));
+                producto.setNombre(resultado.getString(1));
+                producto.setPrecio(resultado.getDouble(2));
+                // producto.setCodigoFabricante(resultado.getInt(4));
+                productos.add(producto);
+            }
+            desconectarBase();
+            return productos;
+        } catch (Exception e) {
+            e.printStackTrace();
+            desconectarBase();
+            throw e;
+        }
+    }
+
 }

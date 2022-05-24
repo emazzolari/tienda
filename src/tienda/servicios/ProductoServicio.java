@@ -192,4 +192,38 @@ public class ProductoServicio {
         dao.modificarProducto(producto);
 
     }
+    
+    public void imprimirNombresYPrecios2() throws Exception {
+
+        try {
+
+            //Listamos los productos
+            Collection<Producto> productos = listarProductosNombreYprecio();
+
+            //Imprimimos los productos
+            if (productos.isEmpty()) {
+                throw new Exception("No existen productos para imprimir");
+            } else {
+                for (Producto u : productos) {
+                    // if(u.getPrecio()>120 && u.getPrecio()<202)
+                    System.out.println("Nombre: " + u.getNombre() + " | " + " Precio: " + u.getPrecio() + "\n");
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public Collection<Producto> listarProductosNombreYprecio() throws Exception {
+
+        try {
+
+            Collection<Producto> productos = dao.listarProductosNombreYprecio();
+
+            return productos;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 }
